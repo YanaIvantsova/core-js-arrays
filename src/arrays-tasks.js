@@ -37,8 +37,21 @@ function getIntervalArray(start, end) {
  *    sumArrays([10, 20, 30], [5, 10, 15]) => [15, 30, 45]
  *    sumArrays([-1, 0, 1], [1, 2, 3, 4]) => [0, 2, 4, 4]
  */
-function sumArrays(/* arr1, arr2 */) {
-  throw new Error('Not implemented');
+function sumArrays(arr1, arr2) {
+  if (arr1.length >= arr2.length) {
+    return arr1.reduce((accumulator, currentValue, index) => {
+      if (arr2[index]) {
+        accumulator.push(currentValue + arr2[index]);
+      } else accumulator.push(currentValue);
+      return accumulator;
+    }, []);
+  }
+  return arr2.reduce((accumulator, currentValue, index) => {
+    if (arr1[index]) {
+      accumulator.push(currentValue + arr1[index]);
+    } else accumulator.push(currentValue);
+    return accumulator;
+  }, []);
 }
 
 /**
@@ -138,8 +151,9 @@ function getAverage(arr) {
  *    isSameLength(['orange', 'banana', 'cherry']) => true
  *    isSameLength(['cat', 'dog', 'elephant']) => false
  */
-function isSameLength(/* arr */) {
-  throw new Error('Not implemented');
+function isSameLength(arr) {
+  const { length } = arr[0];
+  return arr.every((elem) => elem.length === length);
 }
 
 /**
@@ -153,8 +167,8 @@ function isSameLength(/* arr */) {
  *    isValueEqualsIndex([2, 1, 0, 4, 5]) => true
  *    isValueEqualsIndex([10, 20, 30, 40, 50]) => false
  */
-function isValueEqualsIndex(/* arr */) {
-  throw new Error('Not implemented');
+function isValueEqualsIndex(arr) {
+  return arr.some((elem, index) => elem === index);
 }
 
 /**
@@ -419,8 +433,14 @@ function getIdentityMatrix(n) {
  *    getIndicesOfOddNumbers([2, 4, 6, 8, 10]) => []
  *    getIndicesOfOddNumbers([11, 22, 33, 44, 55]) => [0, 2, 4]
  */
-function getIndicesOfOddNumbers(/* numbers */) {
-  throw new Error('Not implemented');
+function getIndicesOfOddNumbers(numbers) {
+  const result = numbers.reduce((acc, elem, index) => {
+    if (elem % 2 !== 0) {
+      acc.push(index);
+    }
+    return acc;
+  }, []);
+  return result;
 }
 
 /**
@@ -451,8 +471,10 @@ function getHexRGBValues(/* arr */) {
  *   getMaxItems([ 10, 2, 7, 5, 3, -5 ], 3) => [ 10, 7, 5 ]
  *   getMaxItems([ 10, 10, 10, 10 ], 3) => [ 10, 10, 10 ]
  */
-function getMaxItems(/* arr, n */) {
-  throw new Error('Not implemented');
+function getMaxItems(arr, n) {
+  if (arr.length === 0) return [];
+  arr.sort((a, b) => b - a);
+  return arr.slice(0, n);
 }
 
 /**
