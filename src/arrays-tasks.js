@@ -278,8 +278,9 @@ function distinct(arr) {
  *    createNDimensionalArray(4, 2) => [[[[0, 0], [0, 0]], [[0, 0], [0, 0]]], [[[0, 0], [0, 0]], [[0, 0], [0, 0]]]]
  *    createNDimensionalArray(1, 1) => [0]
  */
-function createNDimensionalArray(/* n, size */) {
-  throw new Error('Not implemented');
+function createNDimensionalArray(n, size) {
+  if (n === 1) return Array(size).fill(0);
+  return Array(size).fill(createNDimensionalArray(n - 1, size));
 }
 
 /**
@@ -346,8 +347,21 @@ function calculateBalance(arr) {
  *    createChunks(['a', 'b', 'c', 'd', 'e'], 2) => [['a', 'b'], ['c', 'd'], ['e']]
  *    createChunks([10, 20, 30, 40, 50], 1) => [[10], [20], [30], [40], [50]]
  */
-function createChunks(/* arr, chunkSize */) {
-  throw new Error('Not implemented');
+function createChunks(arr, chunkSize) {
+  const result = [];
+  arr.reduce((acc, elem, index) => {
+    acc.push(elem);
+    if (index === arr.length - 1) {
+      result.push(acc);
+      return acc;
+    }
+    if (acc.length === chunkSize) {
+      result.push(acc);
+      return [];
+    }
+    return acc;
+  }, []);
+  return result;
 }
 
 /**
@@ -515,8 +529,23 @@ function findCommonElements(arr1, arr2) {
  *    findLongestIncreasingSubsequence([3, 10, 2, 1, 20]) => 2
  *    findLongestIncreasingSubsequence([50, 3, 10, 7, 40, 80]) => 3
  */
-function findLongestIncreasingSubsequence(/* nums */) {
-  throw new Error('Not implemented');
+function findLongestIncreasingSubsequence(nums) {
+  let maxSubsequence = 1;
+  let tempMaxSubsequence = 1;
+  const res = nums.reduce((acc, elem, index) => {
+    if (index !== 0) {
+      if (elem > nums[index - 1]) {
+        tempMaxSubsequence += 1;
+      } else {
+        if (tempMaxSubsequence > maxSubsequence) {
+          maxSubsequence = tempMaxSubsequence;
+        }
+        tempMaxSubsequence = 1;
+      }
+    }
+    return acc;
+  }, 0);
+  return Math.max(res, tempMaxSubsequence, maxSubsequence);
 }
 
 /**
@@ -553,8 +582,13 @@ function propagateItemsByPositionIndex(arr) {
  *    shiftArray(['a', 'b', 'c', 'd'], -1) => ['b', 'c', 'd', 'a']
  *    shiftArray([10, 20, 30, 40, 50], -3) => [40, 50, 10, 20, 30]
  */
-function shiftArray(/* arr, n */) {
-  throw new Error('Not implemented');
+function shiftArray(arr, n) {
+  if (n > 0) {
+    arr.unshift(arr.splice(-n, n));
+    return arr.flat();
+  }
+  arr.push(arr.splice(0, Math.abs(n)));
+  return arr.flat();
 }
 
 /**
